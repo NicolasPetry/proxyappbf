@@ -43,9 +43,9 @@ export function HomePage() {
         //check whether the card has one or two faces
         //we check only the first object in array
         //because the cards are all either DFC or SFC
-        let backSide = scryfallResponse.data[0].card_faces ? true: false;
+        // let backSide = scryfallResponse.data[0].card_faces ? true: false;
 
-        listI = getImageUrlFromScryFall(scryfallResponse, backSide);
+        listI = getImageUrlFromScryFall(scryfallResponse);
 
         setListOfImages(listI);
     }
