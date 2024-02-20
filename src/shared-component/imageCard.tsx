@@ -2,17 +2,22 @@ import { Button, Card, CardActions, CardContent} from "@mui/material";
 import axios from "axios";
 import { SaveImgDto } from "../dto/saveImgDto";
 import { CardImage } from "../models/cardImage";
-import React from "react";
+import React, { useContext } from "react";
+import { useContextAppMode } from "../context/useContextAppMode";
 
 const getPdfUrl = "http://localhost:9000/getPdf"
 
 interface ImageCardProps {
     images: CardImage,
     imageName: string,
-    imageFormat: string
+    imageFormat: string,
+    updateList: (card: SaveImgDto) => void
 }
 
-export function ImageCard({images, imageName, imageFormat}: ImageCardProps) {
+export function ImageCard({images, imageName, imageFormat, updateList}: ImageCardProps) {
+
+    const { appMode } = useContext(useContextAppMode());
+
 
     const [showBackSide, setShowBackSide] = React.useState<boolean>(false)
 
@@ -57,9 +62,9 @@ export function ImageCard({images, imageName, imageFormat}: ImageCardProps) {
 
     }
 
-    function generatePdf(imagesSelected: CardImage) {
+    function makeImgDto(cardInfo: CardImage): SaveImgDto {
 
-        let imagePath = showBackSide? imagesSelected.faceDOWN!.normal: imagesSelected.faceUP.normal;
+        let imagePath = showBackSide? cardInfo.faceDOWN!.normal: cardInfo.faceUP.normal;
         let imageTitle: string;
 
         if (!images.faceDOWN) {
@@ -77,6 +82,37 @@ export function ImageCard({images, imageName, imageFormat}: ImageCardProps) {
         const saveImgDto: SaveImgDto = {
             imageScryFallUrl: imagePath, fileName: `${imageTitle}.jpg`
         }
+
+        return saveImgDto;
+    }
+
+    function addCardToList(imageSelected: CardImage) {
+
+        const saveImgDto = makeImgDto(imageSelected);
+        updateList(saveImgDto)
+
+    }
+
+    function generatePdf(imageSelected: CardImage) {
+
+        // let imagePath = showBackSide? imageSelected.faceDOWN!.normal: imageSelected.faceUP.normal;
+        let imageTitle: string;
+
+        if (!images.faceDOWN) {
+            imageTitle = imageName
+        } 
+        else if (showBackSide) {
+            let imageTitles = imageName.split('/');
+            imageTitle = imageTitles[2]
+        }
+        else {
+            let imageTitles = imageName.split('/');
+            imageTitle = imageTitles[0]
+        }
+
+        
+
+        const saveImgDto = makeImgDto(imageSelected);
         
         axios.post(
             getPdfUrl, 
@@ -117,7 +153,8 @@ export function ImageCard({images, imageName, imageFormat}: ImageCardProps) {
                 {showBackSide && <img src={backSide} alt="a print of the back side"></img>}
             </CardContent>
             <CardActions>
-                <Button onClick={ () => generatePdf(images)}>Select art</Button>
+                {appMode && <Button onClick={ () => generatePdf(images)}>Select art</Button>}
+                {!appMode && <Button onClick={ () => addCardToList(images)}>Add card to list</Button>}
                 {images.faceDOWN && <Button onClick={ () => changeSide()}> select other side</Button>}
             </CardActions>
         </Card>

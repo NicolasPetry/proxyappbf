@@ -2,17 +2,20 @@ import { FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup} from
 import { CardImage } from "../models/cardImage";
 import { ImageCard } from "./imageCard";
 import React from "react";
-import { wrap } from "module";
-
-
+import { SaveImgDto } from "../dto/saveImgDto";
 
 interface ImageListProps {
     imagesList: CardImage[],
-    imageName: string
+    imageName: string,
+    addCardToList: (card: SaveImgDto) => void
 }
 export function ImageList(
-    {imagesList, imageName}: ImageListProps
+    {imagesList, imageName, addCardToList}: ImageListProps
 ) {
+
+    const updateList = (card: SaveImgDto) => {
+        addCardToList(card);
+    }
 
     const [imageFormat, setImageFormat] = React.useState<string>('normal');
 
@@ -20,6 +23,9 @@ export function ImageList(
 
         setImageFormat((event.target as HTMLInputElement).value)
     }
+
+    
+
     return (
         
         <>
@@ -48,7 +54,7 @@ export function ImageList(
                 imagesList.map((images: CardImage, index: number) => 
 
                 <Grid key={index} item >
-                    <ImageCard images={images} imageName={imageName} imageFormat={imageFormat}/>
+                    <ImageCard images={images} imageName={imageName} imageFormat={imageFormat} updateList={updateList}/>
                 </Grid>
                 
                 )
