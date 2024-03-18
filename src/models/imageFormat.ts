@@ -3,4 +3,5 @@ export interface ImageFormat {
     border_crop: string;
     normal: string;
     small: string;
+    illustration_id: string;
 }

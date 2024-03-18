@@ -17,7 +17,7 @@ export function ImageList(
         addCardToList(card);
     }
 
-    const [imageFormat, setImageFormat] = React.useState<string>('normal');
+    const [imageFormat, setImageFormat] = React.useState<string>('small');
 
     function changeImageFormat(event: React.ChangeEvent<HTMLInputElement>) {
 
@@ -32,7 +32,6 @@ export function ImageList(
         <Grid container>
             <Grid item xs={12}>
             <FormControl>
-                <FormLabel id="demo-row-radio-buttons-group-label">Select Image Format</FormLabel>
                 <RadioGroup
                     row
                     aria-labelledby="demo-row-radio-buttons-group-label"

@@ -3,6 +3,6 @@ export interface SaveImgDto {
     
     imageScryFallUrl: string;
     
-    fileName: string;
-    
+    illustration_id: string;
+
 }
