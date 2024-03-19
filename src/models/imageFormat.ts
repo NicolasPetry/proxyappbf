@@ -4,4 +4,5 @@ export interface ImageFormat {
     normal: string;
     small: string;
     illustration_id: string;
+    name: string;
 }

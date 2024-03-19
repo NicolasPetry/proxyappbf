@@ -20,7 +20,8 @@ function getImageUrlFromScryFall(scryfallResponse: any): CardImage[] {
                 border_crop: scryfallResponse.data[i].card_faces[0].image_uris.border_crop,
                 normal: scryfallResponse.data[i].card_faces[0].image_uris.normal,
                 small: scryfallResponse.data[i].card_faces[0].image_uris.small,
-                illustration_id: scryfallResponse.data[i].card_faces[0].illustration_id
+                illustration_id: scryfallResponse.data[i].card_faces[0].illustration_id,
+                name: scryfallResponse.data[i].card_faces[0].name
                 
             }
 
@@ -29,7 +30,8 @@ function getImageUrlFromScryFall(scryfallResponse: any): CardImage[] {
                 border_crop: scryfallResponse.data[i].card_faces[1].image_uris.border_crop,
                 normal: scryfallResponse.data[i].card_faces[1].image_uris.normal,
                 small: scryfallResponse.data[i].card_faces[1].image_uris.small,
-                illustration_id: scryfallResponse.data[i].card_faces[1].illustration_id
+                illustration_id: scryfallResponse.data[i].card_faces[1].illustration_id,
+                name: scryfallResponse.data[i].card_faces[1].name
                 
             }
 
@@ -41,7 +43,8 @@ function getImageUrlFromScryFall(scryfallResponse: any): CardImage[] {
                 border_crop: scryfallResponse.data[i].image_uris.border_crop,
                 normal: scryfallResponse.data[i].image_uris.normal,
                 small: scryfallResponse.data[i].image_uris.small,
-                illustration_id: scryfallResponse.data[i].illustration_id
+                illustration_id: scryfallResponse.data[i].illustration_id,
+                name: scryfallResponse.data[i].name
                 
             }
             let image:CardImage = {faceUP: imageFormatsFront}

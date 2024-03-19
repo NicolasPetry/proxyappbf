@@ -1,4 +1,6 @@
-import { Button, Grid, Typography } from "@mui/material";
+import { Button, Grid, List, ListItemButton, ListItemIcon, ListItemText, ListSubheader, Typography } from "@mui/material";
+
+import DeleteIcon from '@mui/icons-material/Delete';
 import axios from "axios";
 import React from "react";
 import { ImageList } from "../shared-component/imageList";
@@ -57,6 +59,10 @@ export function SelectArtPage() {
     }
 
     React.useEffect(() => {
+
+    }, [listOfCards])
+
+    React.useEffect(() => {
         if (value) {
             getListOfPrints()
         } else {
@@ -82,8 +88,22 @@ export function SelectArtPage() {
 
               }
             }
-            )
+            ).then(function (response) {
+                console.log(response)
+            }
+            ).catch(function (error) {
+                console.log(error)
+            })
 
+
+    }
+
+    function deleteCardFromList(index: number) {
+
+        const newList =  listOfCards;
+        console.log(index)
+        const deleteElement = newList.splice(index, 1);
+        setListOfCards(newList)
 
     }
 
@@ -131,21 +151,7 @@ export function SelectArtPage() {
     function generatePdfSeriesOf9() {
 
         let imageTitle: string;
-        imageTitle = "hello"
-
-        // if (!images.faceDOWN) {
-        //     imageTitle = imageName
-        // } 
-        // else if (showBackSide) {
-        //     let imageTitles = imageName.split('/');
-        //     imageTitle = imageTitles[2]
-        // }
-        // else {
-        //     let imageTitles = imageName.split('/');
-        //     imageTitle = imageTitles[0]
-        // }
-
-        
+        imageTitle = listOfCards[0].card_name
 
         const saveImgDto = listOfCards[0]
 
@@ -173,7 +179,6 @@ export function SelectArtPage() {
                 document.body.removeChild(a);
                 window.URL.revokeObjectURL(url);
 
-    
             }
         ).catch(error => {
             console.error(error)
@@ -190,16 +195,44 @@ export function SelectArtPage() {
 
                  <Grid>
                     <Typography>nombre de carte dans la liste: {listOfCards.length}</Typography>
-                    <Button onClick={ ()=> resetListOfCards()}>Reset list</Button>
+                    { listOfCards.length > 0 && <Button onClick={ ()=> resetListOfCards()}>Reset list</Button>}
                     { listOfCards.length > 0 && <Button onClick={ ()=> pdfListOfCard()}>Create Pdf</Button>}
                     { listOfCards.length === 1 && <Button onClick={ ()=> generatePdfSeriesOf9()}>Series of 9</Button>}
-                    </Grid>
+                </Grid>
                     
                
+                <Grid container>
                 {  listOfImages.length > 0 &&
 
-                    <ImageList imagesList={listOfImages} imageName={inputValue} addCardToList={updateListOfCards}/>                
+                    
+
+                        <Grid item xs={8}>
+                        
+                        <ImageList imagesList={listOfImages} addCardToList={updateListOfCards}/>                
+                        </Grid>
+                        
+                    
                 }
+                <Grid item xs={4}>
+                            
+                            <List
+                            subheader={
+                                <ListSubheader component="div">Liste de cartes</ListSubheader>
+                                
+                            }
+                            >
+                            {listOfCards && listOfCards.map((aCard: SaveImgDto, index: number) => 
+                            <ListItemButton key={index} onClick={() => deleteCardFromList(index)}>
+                                <ListItemIcon>
+                                    <DeleteIcon/>
+                                </ListItemIcon>
+                                <ListItemText primary={aCard.card_name}/>
+                            </ListItemButton>
+                             
+                            )}
+                            </List>
+                        </Grid>
+                </Grid>
             
             </Grid>
         

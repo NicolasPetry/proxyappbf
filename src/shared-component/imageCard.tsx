@@ -9,12 +9,11 @@ const getPdfUrl = baseUrl +"/getPdf"
 
 interface ImageCardProps {
     images: CardImage,
-    imageName: string,
     imageFormat: string,
     updateList: (card: SaveImgDto) => void
 }
 
-export function ImageCard({images, imageName, imageFormat, updateList}: ImageCardProps) {
+export function ImageCard({images, imageFormat, updateList}: ImageCardProps) {
 
     const [showBackSide, setShowBackSide] = React.useState<boolean>(false)
 
@@ -65,8 +64,10 @@ export function ImageCard({images, imageName, imageFormat, updateList}: ImageCar
 
         let imageId = showBackSide? cardInfo.faceDOWN!.illustration_id : cardInfo.faceUP.illustration_id
 
+        let imageName = showBackSide? cardInfo.faceDOWN!.name: cardInfo.faceUP.name;
+
         const saveImgDto: SaveImgDto = {
-            imageScryFallUrl: imagePath, illustration_id: imageId
+            imageScryFallUrl: imagePath, illustration_id: imageId, card_name: imageName
         }
 
         return saveImgDto;

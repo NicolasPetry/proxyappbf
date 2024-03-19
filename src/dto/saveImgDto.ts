@@ -5,4 +5,6 @@ export interface SaveImgDto {
     
     illustration_id: string;
 
+    card_name: string;
+
 }

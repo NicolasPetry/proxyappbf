@@ -6,11 +6,10 @@ import { SaveImgDto } from "../dto/saveImgDto";
 
 interface ImageListProps {
     imagesList: CardImage[],
-    imageName: string,
     addCardToList: (card: SaveImgDto) => void
 }
 export function ImageList(
-    {imagesList, imageName, addCardToList}: ImageListProps
+    {imagesList, addCardToList}: ImageListProps
 ) {
 
     const updateList = (card: SaveImgDto) => {
@@ -53,7 +52,7 @@ export function ImageList(
                 imagesList.map((images: CardImage, index: number) => 
 
                 <Grid key={index} item >
-                    <ImageCard images={images} imageName={imageName} imageFormat={imageFormat} updateList={updateList}/>
+                    <ImageCard images={images} imageFormat={imageFormat} updateList={updateList}/>
                 </Grid>
                 
                 )
